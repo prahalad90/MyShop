@@ -1,0 +1,8 @@
+{% extends 'nav.html' %}
+{% block title%} {% endblock%}
+{% block content%}
+<div class="container">
+<p>Your Order is processed with order id {{order.id}}</p>
+<p>You can track your order with your tracking code {{order.trackingcode}}</p>
+</div>
+{%endblock%}

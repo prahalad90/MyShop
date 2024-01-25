@@ -1,0 +1,49 @@
+{% extends 'nav.html' %}
+{% block title%} {% endblock%}
+{% block content%}
+<div class="container mt-4">
+    <h4>Billing Detail</h4>
+    <p>{{order.F_name}} {{order.L_name}}<br>
+        {{order.address1}}<br>
+        {{order.address2}}<br>
+        {{order.city}}, {{order.state}}, {{order.country}}<br>
+        {{order.pincode}} <br>{{order.email}} <br>{{order.mobile}}</p>
+
+</div>
+
+<div class="container mt-4">
+    <h4>Item Detail</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3">Product</th>
+                <th class="col">Description</th>
+                <th class="col-1">Quantity</th>
+                <th class="col-2 text-end">Total Price</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td><img src="{{item.image.url}}" alt="" width="100px"></td>
+                <td>{{item.product}}</td>
+                <td class="text center">
+                    {{item.quantity}}</td>
+                <td class="text-end pe-2">₹ {{item.total|floatformat:"2g"}}</td>
+                </td>
+            </tr>
+            {%endfor%}
+
+            <tr>
+                <td></td>
+                <td colspan="2"><strong>Grand Total</strong></td>
+                <td class="text-end pe-2"> <strong>₹ {{total|floatformat:"2g"}}</strong></td>
+            </tr>
+        
+        </tbody>
+
+    </table>
+
+</div>
+{% endblock %}

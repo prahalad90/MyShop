@@ -1,0 +1,19 @@
+{% extends 'nav.html' %}
+{% block content%}
+
+<div class="container mt-5">
+    <p>Search results for "{{term}}"</p>
+    <div class="row gap-3 justify-content-start my-4">
+        {% for j in products%}
+        <div class="col-md-2 text-center border rounded-2">
+            <a href="{% url 'product' j.id %}" class="text-decoration-none text-dark">
+                <img class="p-3 pr-img" src="{{j.image.url}}" alt=""  width="100%">
+                <p>{{j.product_name}}</p>
+            </a>
+        </div>
+        {%endfor%}</div>
+    
+</div>
+
+</div>
+{% endblock %}

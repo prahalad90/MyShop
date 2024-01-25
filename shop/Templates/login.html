@@ -1,0 +1,23 @@
+{% extends 'nav.html'%}
+{% block content%}
+<div class="d-flex justify-content-around align-center p-5">
+<div class="p-5 w-40 border">
+    {% for msg in messages%}
+        {{msg}}
+    {% endfor%}
+    <form method="POST" action="/login">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="id">
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" id="exampleInputPassword1"name="pass">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    {% for msg in messages%}
+        {{msg}}
+    {% endfor%}
+</div>
+</div>
+{% endblock %}

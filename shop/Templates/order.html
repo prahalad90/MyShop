@@ -1,0 +1,32 @@
+{% extends 'nav.html' %}
+{% block title%} {% endblock%}
+{% block content%}
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-1">Order No.</th>
+                <th class="col">Product</th>
+                <th class="col-1">Quantity</th>
+                <th class="col-2 text-end">Total Price</th>
+            </tr>
+        </thead>
+        {% for order in orders%}
+        <tbody>
+                {% for item in order %}
+                <tr>
+                <td><a href="{% url 'order' item.id %}">{{item.order}}</a></td>
+                <td>{{item.product}}</td>
+                <td>{{item.quantity}}</td>
+                <td class="text-end pe-1">{{item.total|floatformat:"2g"}}</td> 
+            </tr>
+                {% endfor %}
+                <tr>
+                    <td>{{order.grand_total}}</td>
+                </tr>
+          
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+{%endblock%}

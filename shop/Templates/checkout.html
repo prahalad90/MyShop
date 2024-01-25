@@ -1,0 +1,55 @@
+{% extends 'nav.html' %}
+{% block title%} {% endblock%}
+{% block content%}
+<div class="container mt-4">
+    <h4>Billing Detail</h4>
+    <form class="row g-3" method="post" action="/checkout/">
+        {% csrf_token %}
+          <div class="col-6">
+            <label for="FirstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="Adam">
+          </div>
+          <div class="col-6">
+            <label for="LastName" class="form-label">Last Name</label>
+            <input type="text" name="LastName" class="form-control" id="LastName" placeholder="Smith">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress1" class="form-label">Address Line1</label>
+            <input type="text" name="address1" class="form-control" id="inputAddress1" placeholder="Apartment, studio, or floor">
+          </div>
+          <div class="col-12">
+              <label for="inputAddress2" class="form-label">Address Line2</label>
+              <input type="text" name="address2" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+            </div>
+          <div class="col-md-3">
+            <label for="inputCity" class="form-label">City</label>
+            <input type="text" name="city" class="form-control" id="inputCity">
+          </div>
+          <div class="col-md-3">
+            <label for="state" class="form-label">State</label>
+            <input type="text" name="state" class="form-control" id="state">
+          </div>
+          <div class="col-md-3">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" name="country" class="form-control" id="country">
+          </div>
+          <div class="col-md-3">
+            <label for="inputZip" class="form-label">Pincode</label>
+            <input type="text" name="pincode" class="form-control" id="inputZip">
+          </div>
+          <div class="col-md-3">
+              <label for="phone" class="form-label">Mobile</label>
+              <input type="text" name="mobile" class="form-control" id="phone">
+            </div>
+            <div class="col-md-5">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" id="email">
+            </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+    
+</div>
+
+{% endblock %}

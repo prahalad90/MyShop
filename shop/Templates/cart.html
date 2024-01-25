@@ -1,0 +1,53 @@
+{% extends 'nav.html' %}
+{% block title%} {% endblock%}
+{% block content%}
+<div class="container mt-4">
+    {% if cartitems %}
+    <h4>Your Cart Summary</h4>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    {% endfor%}
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3">Product</th>
+                <th class="col">Description</th>
+                <th class="col-1">Quantity</th>
+                <th class="col-2 text-end">Total Price</th>
+                <th class="col-1"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cartitems %}
+            <tr>
+                <td><img class="d-block" src="{{item.image.url}}" alt="" width="100px"></td>
+                <td>{{item.product}}</td>
+                <td class="text center"><a href="{% url 'less' item.id %}"><i class="bi bi-dash-circle"></i></a>
+                    {{item.quantity}} <a href="{% url 'add' item.id %}"><i class="bi bi-plus-circle"></i></a></td>
+                <td class="text-end pe-2">₹ {{item.total|floatformat:"2g"}}</td>
+                <td class="text-center"><a href="{% url 'remove' item.id %}"><i class="bi bi-trash-fill"></i></a></td>
+            </tr>
+            {%endfor%}
+
+            <tr>
+                <td></td>
+                <td colspan="2"><strong>Grand Total</strong></td>
+                <td class="text-end pe-2"> <strong>₹ {{total|floatformat:"2g"}}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-end"><a class="btn btn-primary" href="/checkout/">Check out</a></td>
+            </tr>
+        </tbody>
+
+    </table>
+    {% else %}
+    <h4>No item in your cart</h4>
+    {% endif %}
+
+</div>
+
+{%endblock%}

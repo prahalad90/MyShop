@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>{% block title %} {% endblock%}</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex">
+      <div class="container-fluid px-5">
+        <a class="navbar-brand text-end" href="/">FlipKart</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent">
+          
+          <form class="d-flex me-3 w-50" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            <li class="nav-item dropdown user">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="media/images/person.svg" width="20px" alt=""> Login <img class="chevron" src="media/images/chevron.svg" width="15px" alt="">
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Account</a></li>
+                <li><a class="dropdown-item" href="#">Order</a></li>
+                <li><a class="dropdown-item" href="#">Setting</a></li>
+              </ul>
+            </li>
+            
+            <li class="nav-item me-2 m-auto">
+              <a class="btn" aria-current="page" href="#"><img src="media/images/cart.svg"  alt="" width="20px"> Cart</a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% block content%}
+
+    {% endblock %}
+
+    <footer class="container-fluid bg-primary p-lg-5 py-4">
+      <div class="row gap-4">
+        <div class="col-md-4">
+          <a class="text-decoration-none text-dark" href="/"><h2>FlipKart</h2></a>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt, facilis quod vel dolore similique corporis libero necessitatibus. Eveniet reprehenderit, voluptas, velit illo sint commodi consequatur molestiae quod architecto vitae laudantium!</p>
+            <hr class="d-lg-none">
+
+        </div>
+        <div class="col-md">
+          <h5>Links</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2 "><a class="text-decoration-none text-dark" href="/">Home</a></li>
+            <li class="mb-2 "><a class="text-decoration-none text-dark" href="/menu">Menu</a></li>
+            <li class="mb-2 "><a class="text-decoration-none text-dark" href="/about">About</a></li>
+          </ul>
+          <hr class="d-lg-none">
+
+        </div>
+        
+        <div class="col-md">
+          <h5>Social</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a class="text-decoration-none text-dark"><i class="bi bi-facebook"></i> Facebook</a></li>
+            <li class="mb-2"><a class="text-decoration-none text-dark"><i class="bi bi-instagram"></i> Instagram</a></li>
+            <li class="mb-2"><a class="text-decoration-none text-dark"><i class="bi bi-twitter"></i> Twitter</a></li>
+            <li class="mb-2"><a class="text-decoration-none text-dark"><i class="bi bi-youtube"></i> Youtube</a></li>
+          </ul>
+          <hr class="d-lg-none">
+        </div>
+        
+        <div class="col-md-3">
+          <form method="POST" action="/subscribe">
+            {% for msg in messages %}
+            {{msg}}
+            {% endfor %}
+            {% csrf_token %}
+            <div class="form-group mb-3">
+              <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+            </div>
+            <button type="submit" class="btn btn-light btn-sm">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      
+    </footer>
+    <p class="text-center w-100 bg-dark p-2 text-white mb-0">2024 &copy All Right Reserved</p>
+    <!-- Optional JavaScript; choose one of the two! -->
+    
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+  </body>
+</html>

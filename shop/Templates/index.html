@@ -1,0 +1,21 @@
+{% extends 'nav.html' %}
+{% block content%}
+
+<div class="container mt-5">
+    {% for i in products%}
+    <h4>{{i.0.productSubCat}} Products</h4>
+    <div class="row gap-3 justify-content-start my-4">
+        {% for j in i%}
+        <div class="col-md-2 text-center border rounded-2">
+            <a href="{% url 'product' j.id %}" class="text-decoration-none text-dark">
+                <img class="p-3 pr-img" src="{{j.image.url}}" alt=""  width="100%">
+                <p>{{j.product_name | truncatechars:20}}</p>
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+    {%endfor%}
+</div>
+
+</div>
+{% endblock %}
