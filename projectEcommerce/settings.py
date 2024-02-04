@@ -115,3 +115,6 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+KEY = "rzp_test_swIA4oVDtOMRUe"
+SECRET = "TDo8OGvbWnNYS10oBcSy7gMF"

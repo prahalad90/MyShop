@@ -27,10 +27,10 @@
           <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item dropdown user">
               {% if user.is_authenticated%}
-              <a class="nav-link dropdown-toggle text-white" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="media/images/person.svg" width="20px" alt=""> {{user.first_name}} <img class="chevron" src="media/images/chevron.svg" width="15px" alt="">
+              <a class="nav-link dropdown-toggle text-white" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="/media/images/user.png" width="20px" alt=""> {{user.first_name}} <img class="chevron" src="media/images/chevron.svg" width="15px" alt="">
               </a>
               {% else%}
-              <a class="nav-link dropdown-toggle text-white" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="media/images/person.svg" width="20px" alt=""> Login <img class="chevron" src="media/images/chevron.svg" width="15px" alt="">
+              <a class="nav-link dropdown-toggle text-white" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="/media/images/user.png" width="20px" alt=""> Login <img class="chevron" src="media/images/chevron.svg" width="15px" alt="">
               </a>
               {% endif %}
               
@@ -47,7 +47,7 @@
             </li>
             
             <li class="nav-item me-2 m-auto">
-              <a class="btn button text-decoration-none text-white" aria-current="page" href="/view-cart"><img src="media/images/cart.svg"  alt="" width="20px">Cart {% if cartitems %} <sup class="bg-dark py-1 px-2 rounded-circle">{{cartitems.count}}</sup> {% endif %}</a> 
+              <a class="btn button text-decoration-none text-white" aria-current="page" href="/view-cart"><img src="/media/images/cart.png"  alt="" width="20px"> Cart {% if cartitems %} <sup class="bg-dark py-1 px-2 rounded-circle">{{cartitems.count}}</sup> {% endif %}</a> 
             </li>            
           </ul>
         </div>

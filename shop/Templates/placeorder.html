@@ -3,11 +3,11 @@
 {% block content%}
 <div class="container mt-4">
     <h4>Billing Detail</h4>
-    <p>{{order.F_name}} {{order.L_name}}<br>
-        {{order.address1}}<br>
-        {{order.address2}}<br>
-        {{order.city}}, {{order.state}}, {{order.country}}<br>
-        {{order.pincode}} <br>{{order.email}} <br>{{order.mobile}}</p>
+    <p>{{shipping.F_name}} {{shipping.L_name}}<br>
+        {{shipping.address1}}<br>
+        {{shipping.address2}}<br>
+        {{shipping.city}}, {{shipping.state}}, {{shipping.country}}<br>
+        {{shipping.pincode}} <br>{{shipping.email}} <br>{{shipping.mobile}}</p>
 
 </div>
 
@@ -41,11 +41,29 @@
                 <td class="text-end pe-2"> <strong>₹ {{total|floatformat:"2g"}}</strong></td>
             </tr>
             <tr>
-                <td colspan="4" class="text-end"><a class="btn btn-primary" href="{% url 'confirm' order.trackingcode %}">Continue</a></td>
+                <td colspan="4" class="text-end"><button id="rzp-button1" >Pay with Razorpay</button>
+                </td>
             </tr>
         </tbody>
-
     </table>
-
 </div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_swIA4oVDtOMRUe", // Enter the Key ID generated from the Dashboard
+    "amount": "{{payment.amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "{{callbackURL}}",
+    };
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
 {% endblock %}

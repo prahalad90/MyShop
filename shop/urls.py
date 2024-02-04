@@ -17,9 +17,9 @@ urlpatterns = [
     path('add/<int:id>',add_qnt,name ='add'),
     path('checkout/',checkout,name='checkout'),
     path('placeorder/',placeorder,name='placeorder'),
-    path('continue/<str:trackingcode>',orderconfirm,name='confirm'),
     path('order',order),
     path('order/<int:id>',orderdetail,name='order'),
-    path('logout',logoutview),
-    path('login',loginview),
+    path('logout/',logoutview),
+    path('login/',loginview),
+    path('orderconfirm/',orderconfirm,name='orderconfirm'),
 ]

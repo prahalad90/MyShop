@@ -24,7 +24,6 @@ class SubCategory(models.Model):
 
 class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    # productCat = models.ForeignKey(Category, on_delete=models.CASCADE)
     productSubCat = models.ForeignKey(SubCategory,on_delete=models.CASCADE)
     product_name =  models.CharField(max_length=100)
     product_des = models.TextField()
@@ -37,7 +36,7 @@ class Product(models.Model):
     def __str__(self):
         return self.product_name
 
-class Order(models.Model):
+class Shipping (models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     F_name = models.CharField(max_length=50)
     L_name = models.CharField(max_length=50)
@@ -49,37 +48,35 @@ class Order(models.Model):
     pincode = models.CharField(max_length=6)
     email = models.EmailField()
     mobile = models.CharField(max_length=10)
-    totalPrice = models.FloatField(null=False)
-    status = models.BooleanField(default=False)
     trackingcode = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now_add = True)
+    isdeliverd = models.BooleanField(default=False)
     
     def __str__(self):
-        return f"{self.id}/{self.trackingcode}"
+        return f"{self.trackingcode}"
 
-    def track(self):
-        return f"{self.id}/{self.trackingcode}"
-    
-    def grand_total(self,items):
-        total = 0
-        for i in items:
-            price = i.product.price * i.quantity
-            total+=price
-        return total
+
+class Order(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    trackingcode = models.CharField(max_length=100,blank=True,null=True)
+    orderValue = models.IntegerField(blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now_add = True)
+    razorpay_payment_id = models.CharField(max_length = 150, blank=True, null=True)
+    razorpay_order_id = models.CharField(max_length = 150, blank=True, null=True)
+    razorpay_signature = models.CharField(max_length = 150, blank=True, null=True)
+    status = models.BooleanField(default=False)
 
 class Cart(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE, blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity = models.IntegerField()
     timeStamp = models.DateField()
-    order = models.CharField(max_length=10, blank=True, null=True)
+    order_no = models.CharField(max_length=10, blank=True, null=True)
         
     def total(self):
         return self.product.price * self.quantity
     
-    def grand_total(self, user):
-        items = Cart.objects.filter(order=None, user=user)
+    def grand_total(items):
         total = 0
         for i in items:
             price = i.product.price * i.quantity
@@ -89,8 +86,8 @@ class Cart(models.Model):
     def image(self):
         return self.product.image
 
-    def orderValue(self,id):
-        items = Cart.objects.filter(order=id)
+    def orderValue(id):
+        items = Cart.objects.filter(order_no=id)
         total = 0
         for i in items:
             price = i.product.price * i.quantity
