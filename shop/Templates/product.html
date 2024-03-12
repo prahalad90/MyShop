@@ -2,7 +2,7 @@
 {% block title%} {% endblock%}
 {% block content%}
 <div class="row m-0 p-0" style="height: 80vh;">
-    <div class="col-md-4 p-3 text-center"><img src="{{product.image.url}}" alt="" width="auto"></div>
+    <div class="col-md-4 p-3 text-center overflow-y-hidden"><img src="{{product.image.url}}" alt="" height="400px"></div>
     <div class="col-md-8 bg-light p-4">
         <h3>{{product.name}}</h3>
         <h4>₹{{product.price}}</h4>

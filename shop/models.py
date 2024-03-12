@@ -56,6 +56,7 @@ class Shipping (models.Model):
 
 
 class Order(models.Model):
+    order_no = models.AutoField(primary_key=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     trackingcode = models.CharField(max_length=100,blank=True,null=True)
     orderValue = models.IntegerField(blank=True,null=True)
@@ -65,12 +66,14 @@ class Order(models.Model):
     razorpay_order_id = models.CharField(max_length = 150, blank=True, null=True)
     razorpay_signature = models.CharField(max_length = 150, blank=True, null=True)
     status = models.BooleanField(default=False)
+    
 
 class Cart(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity = models.IntegerField()
     timeStamp = models.DateField()
+    trackingcode = models.CharField(max_length=10, blank=True, null=True)
     order_no = models.CharField(max_length=10, blank=True, null=True)
         
     def total(self):
@@ -87,7 +90,7 @@ class Cart(models.Model):
         return self.product.image
 
     def orderValue(id):
-        items = Cart.objects.filter(order_no=id)
+        items = Cart.objects.filter(trackingcode=id)
         total = 0
         for i in items:
             price = i.product.price * i.quantity

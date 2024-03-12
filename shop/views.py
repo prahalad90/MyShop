@@ -18,14 +18,19 @@ def index(request):
     for cat in cats:
         prod = Product.objects.filter(productSubCat = cat)
         products.append(prod)
-    
-    items = Cart.objects.filter(user = user, order_no=None)
+    if request.user.is_authenticated:
+        items = Cart.objects.filter(user = user, trackingcode=None)
+    else:
+        items = None
     params = {'products':products,'cartitems':items}
     return render(request,'index.html',params)
 
 def productview(request, id):
     product= Product.objects.get(pk=id)
-    items = Cart.objects.filter(user = request.user, order_no=None)
+    if request.user.is_authenticated:
+        items = Cart.objects.filter(user = request.user, trackingcode=None)
+    else:
+        items = None
     params ={'product':product, 'cartitems':items}
     return render(request,'product.html',params)
 
@@ -46,7 +51,7 @@ def add_to_cart(request):
             user = request.user
             product = request.GET.get('prdt')
             item = Product.objects.get(pk = product)
-            cartItems = Cart.objects.filter(user = user, product = item,order_no=None)
+            cartItems = Cart.objects.filter(user = user, product = item,trackingcode=None)
             if cartItems:
                 cartItems[0].quantity += 1
                 cartItems[0].save()
@@ -61,7 +66,7 @@ def add_to_cart(request):
 def view_cart(request):
     if request.user.is_authenticated:
         user = request.user
-        items = Cart.objects.filter(user=user, order_no= None)
+        items = Cart.objects.filter(user=user, trackingcode= None)
         if items == None:
             return render(request, 'cart.html',{'msg':"No item in your cart"})
         else:
@@ -99,7 +104,7 @@ def add_qnt(request,id):
 def checkout(request):
     if request.user.is_authenticated:
         user = request.user
-        items = Cart.objects.filter(user=user,order_no=None)
+        items = Cart.objects.filter(user=user,trackingcode=None)
         total = Cart.grand_total(items)
         try:
             address = Shipping.objects.get(user = user, isdeliverd=False)
@@ -125,15 +130,13 @@ def checkout(request):
                 return redirect ('placeorder') 
     return render (request,'checkout.html')
 
-
 client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
 def placeorder(request):
     if request.user.is_authenticated:
         user = request.user
         shipping = Shipping.objects.get(user=user, isdeliverd=False)
-        items = Cart.objects.filter(user = user, order_no = None)
+        items = Cart.objects.filter(user = user, trackingcode = None)
         total = Cart.grand_total(items)
-
         try:
             order = Order.objects.get(user = user, status = False)
             payment = client.order.create({ "amount":total * 100, "currency": "INR", "receipt": order.trackingcode })
@@ -175,42 +178,49 @@ def orderconfirm(request):
         shipping = Shipping.objects.get(trackingcode = code)
         shipping.isdeliverd = True
         shipping.save()
-        items = Cart.objects.filter(user = user, order_no = None)
+        items = Cart.objects.filter(user = user, trackingcode = None)
         for i in items:
-            i.order_no = code
+            i.trackingcode = code
+            i.order_no = order.order_no
             i.save()
-        
-        return render(request, 'success.html')
+        Parmas={
+            'order':order,
+            'Payment':payment_id,
+        }
+        return render(request, 'success.html',Parmas)
     else:
-        
-        return render(request, 'success.html')
+        HttpResponse("Bad Request, Payment Error")
     
 def order(request):
     if request.user.is_authenticated:
         user = request.user
-        num = Cart.objects.values('order_no').exclude(order_no = None)
-        ordernum = {item['order_no'] for item in num}
+        num = Cart.objects.values('trackingcode').exclude(trackingcode = None).order_by()
+        ordernum = {item['trackingcode'] for item in num}
         orders = []
         for i in ordernum:
-            order = Cart.objects.filter(order_no = i,user = user)
+            order = Cart.objects.filter(trackingcode = i,user = user)
             orders.append(order)
 
         params = {
             'orders':orders
         }
         return render(request,'order.html', params)
-
+    else:
+        return redirect (loginview)
+    
 def orderdetail(request,id):
     if request.user.is_authenticated:
         print(id)
+        myorder = Order.objects.get(trackingcode = id)
         user = request.user
-        address = Shipping.objects.get(trackingcode = id)
-        items = Cart.objects.filter(order_no = id)
+        address = Shipping.objects.get(trackingcode = myorder.trackingcode)
+        items = Cart.objects.filter(trackingcode = id)
         total = Cart.orderValue(id)
         params = {
             'address':address,
             'items':items,
             'total':total,
+            'order':myorder,
         }
         return render (request,'orderdetail.html',params)
 
@@ -223,6 +233,7 @@ def loginview(request):
             login(request, user)
             return redirect(index)
         else:
+            print("error")
             messages.success(request, "Invalid credential")
             return render(request,'login.html')
     return render(request,'login.html')

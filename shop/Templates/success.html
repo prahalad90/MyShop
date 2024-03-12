@@ -2,7 +2,10 @@
 {% block title%} {% endblock%}
 {% block content%}
 <div class="container">
-    Payment successful
-    
+  <p>Payment successful</p>
+  <p>Your Order number is : {{order.order_no}}</p>
+  <p>Order Tracking code is : {{order.trackingcode}}</p>
+  <p>Your Payment Reference No. is : {{Payment}}</p>
+  <p>You can track your order at order section</p>
 </div>
 {% endblock%}
