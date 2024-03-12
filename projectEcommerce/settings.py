@@ -118,4 +118,3 @@ MEDIA_URL = 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 KEY = "rzp_test_swIA4oVDtOMRUe"
-SECRET = "TDo8OGvbWnNYS10oBcSy7gMF"
